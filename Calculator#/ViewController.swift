@@ -16,9 +16,16 @@ class ViewController: UIViewController {
     var resultNumber: String = ""
     var numAfterResult : String = ""
     
+    @IBOutlet weak var removeLast: UIButton!
     
+    @IBAction func removeNumberLast(_ sender: UIButton) {
+        
+        firstNum.count = firstNum.removeLast()
+        secondNum.count = secondNum.removeLast()
+    }
     @IBOutlet weak var numOnScreen: UILabel!
     
+    @IBOutlet weak var historyView: UITextView!
     @IBAction func numPressed(_ sender: UIButton) {
         if operation == "" {
             
@@ -60,13 +67,21 @@ class ViewController: UIViewController {
         resultNumber = String(doOperation())
         let numArray = resultNumber.components(separatedBy: ".")
         print(numArray)
+        
+        if historyView.text == "0" {
+            historyView.text = ""
+            historyView.text += firstNum + operation + secondNum + "=" + resultNumber + "\n"
+        }else{
+            historyView.text += firstNum + operation + secondNum + "=" + resultNumber
+        }
+        
         if numArray[1] == "0"{
             numOnScreen.text = numArray[0]
         }
         else{
             numOnScreen.text = resultNumber
         }
-        
+        firstNum = resultNumber
         numAfterResult = ""
     }
     override func viewDidLoad() {
